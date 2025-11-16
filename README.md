@@ -1,107 +1,142 @@
-# Final_Kernel_Performance.csv
 
-Got you. Here’s a clean, **bullet-proof** set of steps that (1) avoids the broken-symlink mess and (2) produces the `*_with_counts.csv` correctly. Run everything **from the repo root** (`~/gpu-perf`).
+
+using the scripts you currently have:
+
+* `scripts/run_suite_4070.sh`
+* `scripts/run_trials.sh`
+* `scripts/static_counts.py`
+* `scripts/add_singlethread_baseline.py`
+* `scripts/verify_calibration.py`
+
+It produces these final artifacts:
+
+* `data/device_calibration_4070.json` (and a correct non-broken link)
+* `data/runs_4070.csv` (10 trials per kernel, averaged)
+* `data/runs_4070_with_counts.csv` (adds FLOPs/BYTES)
+* `data/runs_4070_final.csv` (adds single-thread baseline + modeled speedup)
 
 ---
 
-# 0) Clean slate (optional but recommended)
+# A. Clean slate (keep calibration + build logs)
+
+Run this from repo root `~/gpu-perf`:
 
 ```bash
-cd ~/gpu-perf
-rm -f data/runs_4070.csv data/runs_4070_with_counts.csv data/runs_4070_final.csv
-rm -f data/trials_*__4070.csv
+# 1) Keep only the essentials; delete old CSV noise
+find data -maxdepth 1 -type f \
+  \( -name 'trials_*__*.csv' -o -name 'runs_*.csv' -o -name 'runs_agg_*.csv' \) \
+  -delete
+
+# 2) Keep calibration outputs and logs; show what's left
+ls -l data
+```
+
+You should still see (examples):
+
+```
+device_calibration_4070.json
+props_4070.out
+stream_like_4070.out
+gemm_cublas_4070.out
+ptxas_4070.log
 ```
 
 ---
 
-# 1) Make a **safe** symlink to calibration (no more broken links)
+# B. Fix the symlink once (no more “broken link”)
 
-Use an **absolute path** for the target so the link never breaks due to `cwd`.
+**Important:** Create the symlink **from inside `data/`** so the target path is correct.
 
 ```bash
-cd ~/gpu-perf
-# sanity: must exist and be non-empty
-test -s data/device_calibration_4070.json
-
-# make a safe absolute symlink
-ln -sfn "$(pwd)/data/device_calibration_4070.json" data/device_calibration.json
-
-# verify
-ls -l data/device_calibration*.json
-readlink -f data/device_calibration.json
-jq -r '.device_name,.sustained_mem_bandwidth_gbps,.sustained_compute_gflops' data/device_calibration.json
+cd data
+ln -sfn device_calibration_4070.json device_calibration.json
+ls -l device_calibration_4070.json device_calibration.json
+# sanity
+jq -r '.device_name,
+       .sustained_mem_bandwidth_gbps,
+       .sustained_compute_gflops' device_calibration.json
+cd ..
 ```
 
 You should see:
 
-* the symlink pointing to an **absolute** path
-* the device name “NVIDIA GeForce RTX 4070”
-* non-zero GB/s and GFLOP/s
-
----
-
-# 2) Build the runner
-
-```bash
-nvcc -std=c++14 -O3 --ptxas-options=-v -lineinfo -arch=sm_89 -DTILE=32 \
-  -o bin/runner runner/main.cu > data/build_4070.log 2>&1 || tail -120 data/build_4070.log
-
-test -x bin/runner
+```
+NVIDIA GeForce RTX 4070
+<non-zero GB/s>
+<non-zero GFLOP/s>
 ```
 
+> If either number is 0.0, the `stream_like_4070.out` / `gemm_cublas_4070.out` are missing their “SUSTAINED_” lines. Fix with:
+>
+> ```bash
+> bw=$(awk -F'=' '/GBps=/{print $NF}' data/stream_like_4070.out | sort -nr | head -1)
+> fl=$(awk -F'=' '/GFLOPS=/{print $NF}' data/gemm_cublas_4070.out | sort -nr | head -1)
+> grep -q SUSTAINED_MEM_BW_GBPS data/stream_like_4070.out  || echo "SUSTAINED_MEM_BW_GBPS=$bw"  >> data/stream_like_4070.out
+> grep -q SUSTAINED_COMPUTE_GFLOPS data/gemm_cublas_4070.out || echo "SUSTAINED_COMPUTE_GFLOPS=$fl" >> data/gemm_cublas_4070.out
+> # re-write JSON
+> python3 scripts/verify_calibration.py \
+>   --props  data/props_4070.out \
+>   --stream data/stream_like_4070.out \
+>   --gemm   data/gemm_cublas_4070.out \
+>   --out    data/device_calibration_4070.json
+> (cd data && ln -sfn device_calibration_4070.json device_calibration.json)
+> jq -r '.device_name,.sustained_mem_bandwidth_gbps,.sustained_compute_gflops' data/device_calibration.json
+> ```
+
 ---
 
-# 3) Run the full 4070 suite (creates the trial CSVs)
+# C. Build and run all kernels (creates the per-kernel trial CSVs and the aggregated `runs_4070.csv`)
 
 ```bash
-chmod +x scripts/run_trials.sh
+# Build + run everything; this script compiles runner and runs 10 trials/kernel
 bash scripts/run_suite_4070.sh
 
-# verify the per-kernel trial files exist
-ls -l data/trials_*__4070.csv | wc -l
-head -3 data/trials_vector_add__4070.csv
-```
+# Confirm trials got created for the 4070 tag and the aggregate files exist
+ls -l data/trials_*__*.csv
+ls -l data/runs_4070.csv data/runs_agg_4070.csv
 
-You should see **15** trial files (one per kernel), each with 10 rows.
-
----
-
-# 4) Aggregate trials → per-kernel means/std → `runs_4070.csv`
-
-```bash
-python3 scripts/aggregate_trials.py data/trials_*__4070.csv > data/runs_4070.csv
-
-# quick peek
+# Quick peek
 head -5 data/runs_4070.csv
 ```
 
----
-
-# 5) Join with static counts → `runs_4070_with_counts.csv`
-
-This is where you previously hit the error—make sure to pass **three args** (no redirection).
+If the script prints only the compile step and stops, your `run_suite_4070.sh` likely has `set -e` and failed silently on a later command. Run with trace to see the exact line:
 
 ```bash
-# kernels_static_4070.csv must exist (it was created earlier by the static-counts step)
-python3 scripts/static_counts.py data/ptxas_4070.log > data/kernels_static_4070.csv
-test -s data/kernels_static_4070.csv
+bash -x scripts/run_suite_4070.sh
+```
 
-python3 scripts/join_runs_and_counts.py \
-  data/runs_4070.csv \
-  data/kernels_static_4070.csv \
-  data/runs_4070_with_counts.csv
+Common fixes:
 
-# verify
+* Ensure `scripts/run_trials.sh` is executable: `chmod +x scripts/run_trials.sh`
+* Make sure `bin/runner` exists: the script compiles it; if not, try compiling once manually:
+
+  ```bash
+  nvcc -std=c++14 -O3 --ptxas-options=-v -lineinfo -arch=sm_89 -DTILE=32 \
+    -o bin/runner runner/main.cu 2> data/ptxas_4070.log
+  test -x bin/runner
+  ```
+
+---
+
+# D. Add static FLOPs/BYTES to each row (no extra “join” file needed)
+
+Your `scripts/static_counts.py` reads `runs_4070.csv` and writes to **stdout**. Redirect it:
+
+```bash
+python3 scripts/static_counts.py \
+  data/runs_4070.csv > data/runs_4070_with_counts.csv
+
+# sanity
 head -3 data/runs_4070_with_counts.csv
 ```
 
-You should now see columns like `kernel,args,regs,shmem,block,grid,rows,cols,matN,H,W,FLOPs,BYTES,ai,...`
+You should now see additional columns like `FLOPs` and `BYTES` appended to each kernel row.
+
+> Note: You **do not** need `kernels_static_4070.csv` or `join_runs_and_counts.py` for this pipeline. We’re keeping it simple.
 
 ---
 
-# 6) Add single-thread baseline & modeled speedup → `runs_4070_final.csv`
-
-This computes the “relative to a single thread” metric by scaling sustained ceilings by warp size (32). No extra runs needed.
+# E. Add the single-thread baseline + modeled speedup (this creates your final CSV)
 
 ```bash
 python3 scripts/add_singlethread_baseline.py \
@@ -109,42 +144,52 @@ python3 scripts/add_singlethread_baseline.py \
   data/device_calibration_4070.json \
   data/runs_4070_final.csv
 
-# verify the two extra columns exist
-head -1 data/runs_4070_final.csv | tr ',' '\n' | nl | sed -n '1,120p'
+# sanity
+head -3 data/runs_4070_final.csv
+tail -3 data/runs_4070_final.csv
+```
+
+You’ll now have two extra columns:
+
+* `T1_model_ms`  — modeled runtime for a **single active lane** (we scale device ceilings by warp size = 32; you **don’t** re-run kernels)
+* `speedup_model` — `T1_model_ms / mean_ms` for each kernel row
+
+This exactly satisfies the “relative to a single thread” requirement **without** adding more kernel runs.
+
+---
+
+## What to keep vs. what to delete (after it all works)
+
+Keep:
+
+* `data/device_calibration_4070.json`
+* `data/device_calibration.json` (the **correct** symlink made inside `data/`)
+* `data/props_4070.out`, `data/stream_like_4070.out`, `data/gemm_cublas_4070.out`
+* `data/ptxas_4070.log` (useful for audits)
+* `data/runs_4070.csv`
+* `data/runs_4070_with_counts.csv`
+* `data/runs_4070_final.csv`  ← **your final deliverable**
+
+Safe to delete:
+
+* `data/trials_*__*.csv` (raw trials) after you trust `runs_4070.csv`
+* Any older `runs_agg_*.csv` from previous attempts
+
+---
+
+## Quick “all good?” checklist
+
+```bash
+# link points to the right file (no "broken symbolic link")
+ls -l data/device_calibration*.json
+file data/device_calibration.json
+jq -r '.device_name,.sustained_mem_bandwidth_gbps,.sustained_compute_gflops' data/device_calibration.json
+
+# aggregated runs exist and are non-empty
+wc -l data/runs_4070.csv data/runs_4070_with_counts.csv data/runs_4070_final.csv
+
+# sample final lines
 tail -5 data/runs_4070_final.csv
 ```
 
-You should see new columns: `T1_model_ms` and `speedup_model`.
-
----
-
-## Common gotchas (and the fixes we applied)
-
-* **Broken symlink**: happens if you do `ln -s data/device_calibration_4070.json data/device_calibration.json` from a different directory.
-  **Fix used**: `ln -sfn "$(pwd)/data/device_calibration_4070.json" data/device_calibration.json` (absolute path).
-
-* **Empty `*_with_counts.csv` or script error**: occurs if you redirect stdout instead of passing the 3rd arg.
-  **Fix used**: call
-
-  ```bash
-  python3 scripts/join_runs_and_counts.py data/runs_4070.csv data/kernels_static_4070.csv data/runs_4070_with_counts.csv
-  ```
-
-  (three positional args; no `>`).
-
-* **No trial CSVs**: ensure `scripts/run_trials.sh` is executable and `run_suite_4070.sh` actually calls it—your current version does, and you verified `bin/runner` prints timings.
-
----
-
-### Final artifact checklist
-
-After the steps above, you should have:
-
-* `data/device_calibration.json` → valid symlink to `device_calibration_4070.json`
-* `data/trials_*__4070.csv` → raw per-trial timings (10 rows each)
-* `data/runs_4070.csv` → kernel-level mean/std from trials
-* `data/kernels_static_4070.csv` → static counts + launch config
-* `data/runs_4070_with_counts.csv` → joined runs + counts
-* `data/runs_4070_final.csv` → plus single-thread baseline & modeled speedup
-
-If anything doesn’t appear, paste the command output and I’ll zero in fast.
+If any step fails, copy-paste the exact failing command + one-line error and I’ll zero in on it. This flow avoids the earlier symlink pitfall and doesn’t rely on the separate `kernels_static_4070.csv` join step, so it’s tight and repeatable.
