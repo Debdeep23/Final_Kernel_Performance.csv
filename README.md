@@ -83,6 +83,7 @@ This is where you previously hit the error—make sure to pass **three args** (n
 
 ```bash
 # kernels_static_4070.csv must exist (it was created earlier by the static-counts step)
+python3 scripts/static_counts.py data/ptxas_4070.log > data/kernels_static_4070.csv
 test -s data/kernels_static_4070.csv
 
 python3 scripts/join_runs_and_counts.py \
