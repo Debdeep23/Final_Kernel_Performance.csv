@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.011356,1
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.012995,2
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.010271,3
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.012094,4
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.011397,5
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.014244,6
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.017132,7
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.044964,8
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.015944,9
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,12.012708,10

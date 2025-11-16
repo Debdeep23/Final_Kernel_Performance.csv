@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008028,1
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008090,2
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008008,3
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008059,4
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008121,5
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008110,6
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008110,7
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008069,8
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008079,9
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,0.008072,10

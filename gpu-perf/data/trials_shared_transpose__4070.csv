@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.228946,1
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.224655,2
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.255416,3
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.269825,4
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.255252,5
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.269742,6
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.269650,7
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.254792,8
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.269558,9
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,0.253788,10

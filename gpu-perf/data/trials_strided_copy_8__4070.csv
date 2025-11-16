@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008868,1
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008868,2
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008827,3
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008806,4
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008847,5
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008847,6
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008847,7
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008837,8
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008817,9
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,0.008878,10

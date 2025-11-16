@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.064837,1
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.061192,2
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.032417,3
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.061069,4
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.031293,5
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.093550,6
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.064597,7
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.061581,8
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.061335,9
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,1.064264,10

@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.026068,1
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.057505,2
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,0.995492,3
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.025537,4
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.027830,5
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.023775,6
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.027502,7
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.025372,8
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,1.027809,9
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,0.995246,10

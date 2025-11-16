@@ -1,0 +1,13 @@
+{
+  "device_name": "NVIDIA",
+  "warp_size": 32,
+  "sm_count": 46,
+  "sustained_mem_bandwidth_gbps": 376.24,
+  "sustained_compute_gflops": 13944.0,
+  "sm_limits": {
+    "max_threads_per_sm": 1536,
+    "max_blocks_per_sm": 24,
+    "registers_per_sm": 65536,
+    "shared_mem_per_sm_bytes": 102400
+  }
+}

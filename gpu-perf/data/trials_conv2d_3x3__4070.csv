@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017613,1
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017654,2
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017674,3
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017633,4
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017633,5
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017617,6
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017674,7
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017613,8
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017592,9
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,0.017613,10

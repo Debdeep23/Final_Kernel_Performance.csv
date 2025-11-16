@@ -1,0 +1,76 @@
+# scripts/verify_calibration.py
+import json, sys, re, os
+
+def must(path, what):
+    if not os.path.exists(path) or os.path.getsize(path) == 0:
+        print(f"[ERROR] Missing or empty {what}: {path}", file=sys.stderr)
+        sys.exit(1)
+
+def parse_kv_lines(txt):
+    d = {}
+    for ln in txt.splitlines():
+        if '=' in ln and not ln.strip().startswith('#'):
+            k,v = ln.strip().split('=',1)
+            d[k.strip()] = v.strip()
+    return d
+
+def parse_props(txt):
+    # format produced by calibration/props.cu in your repo
+    out = {}
+    for ln in txt.splitlines():
+        if ln.startswith("name="):  out["device_name"] = ln.split("=",1)[1].strip()
+        if ln.startswith("major="): major = int(ln.split("=",1)[1])
+        if ln.startswith("minor="): minor = int(ln.split("=",1)[1])
+        if ln.startswith("multiProcessorCount="): out["sm_count"] = int(ln.split("=",1)[1])
+        if ln.startswith("maxThreadsPerMultiProcessor="): out["max_threads_per_sm"] = int(ln.split("=",1)[1])
+        if ln.startswith("maxBlocksPerMultiProcessor="):  out["max_blocks_per_sm"]  = int(ln.split("=",1)[1])
+        if ln.startswith("regsPerMultiprocessor="):        out["registers_per_sm"]   = int(ln.split("=",1)[1])
+        if ln.startswith("sharedMemPerMultiprocessor="):    out["shared_mem_per_sm_bytes"] = int(ln.split("=",1)[1])
+        if ln.startswith("warpSize="): out["warp_size"] = int(ln.split("=",1)[1])
+    out["sm_version"] = f"{major}{minor}"
+    return out
+
+def extract_max_number(txt, key):
+    # lines like: "SUSTAINED_MEM_BW_GBPS=543.92"
+    m = re.search(rf"{key}\s*=\s*([0-9]+(?:\.[0-9]+)?)", txt)
+    return float(m.group(1)) if m else 0.0
+
+if __name__ == "__main__":
+    props_path  = sys.argv[sys.argv.index("--props")+1]   if "--props"  in sys.argv else "data/props_4070.out"
+    stream_path = sys.argv[sys.argv.index("--stream")+1]  if "--stream" in sys.argv else "data/stream_like_4070.out"
+    gemm_path   = sys.argv[sys.argv.index("--gemm")+1]    if "--gemm"   in sys.argv else "data/gemm_cublas_4070.out"
+    out_path    = sys.argv[sys.argv.index("--out")+1]     if "--out"    in sys.argv else "data/device_calibration_4070.json"
+
+    must(props_path, "props")
+    must(stream_path, "stream_like")
+    must(gemm_path, "gemm_cublas")
+
+    props_txt  = open(props_path).read()
+    stream_txt = open(stream_path).read()
+    gemm_txt   = open(gemm_path).read()
+
+    P = parse_props(props_txt)
+
+    bw  = extract_max_number(stream_txt, "SUSTAINED_MEM_BW_GBPS")
+    fl  = extract_max_number(gemm_txt,   "SUSTAINED_COMPUTE_GFLOPS")
+    if bw == 0.0 or fl == 0.0:
+        print("[ERROR] Sustained BW/GFLOPS missing; make sure the *_4070.out files end with those lines.", file=sys.stderr)
+        sys.exit(2)
+
+    calib = {
+        "device_name": P.get("device_name",""),
+        "warp_size": P.get("warp_size",32),
+        "sm_count": P.get("sm_count",0),
+        "sustained_mem_bandwidth_gbps": bw,
+        "sustained_compute_gflops": fl,
+        "sm_limits": {
+            "max_threads_per_sm":     P.get("max_threads_per_sm",0),
+            "max_blocks_per_sm":      P.get("max_blocks_per_sm",0),
+            "registers_per_sm":       P.get("registers_per_sm",0),
+            "shared_mem_per_sm_bytes":P.get("shared_mem_per_sm_bytes",0)
+        }
+    }
+    with open(out_path,"w") as f:
+        json.dump(calib,f,indent=2)
+    print(f"[OK] wrote {out_path}")
+

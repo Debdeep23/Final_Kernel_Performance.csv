@@ -1,0 +1,17 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,trials,mean_ms,std_ms
+atomic_hotspot,--N 1048576 --block 256 --iters 100 --warmup 10 --reps 50,7,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,10,12.016310,0.009762
+conv2d_3x3,--H 1024 --W 1024 --warmup 10 --reps 50,30,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,10,0.017632,0.000026
+conv2d_7x7,--H 1024 --W 1024 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,64,64,1,16,16,1,10,0.258549,0.001873
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,10,0.014441,0.000033
+histogram,--N 1048576 --block 256 --warmup 10 --reps 50,10,1024,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,10,0.248517,0.015787
+matmul_naive,--matN 512 --warmup 10 --reps 50,40,0,NVIDIA GeForce RTX 4070,32,32,1,16,16,1,10,1.059613,0.016669
+matmul_tiled,--matN 512 --warmup 10 --reps 50,37,8192,NVIDIA GeForce RTX 4070,16,16,1,32,32,1,10,1.023214,0.016751
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,10,0.667508,0.000370
+random_access,--N 1048576 --block 256 --warmup 20 --reps 100,10,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,10,0.008075,0.000034
+reduce_sum,--N 1048576 --block 256 --warmup 20 --reps 100,10,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,10,0.013545,0.000029
+saxpy,--N 1048576 --block 256 --warmup 20 --reps 100,12,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,10,0.008856,0.000111
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,10,0.000027,0.000010
+shared_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,10,4224,NVIDIA GeForce RTX 4070,64,64,1,32,32,1,10,0.255162,0.015700
+strided_copy_8,--N 1048576 --block 256 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,512,1,1,256,1,1,10,0.008844,0.000022
+vector_add,--N 1048576 --block 256 --warmup 20 --reps 100,12,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,10,0.008946,0.000014
+vector_add_divergent,--N 1048576 --block 256 --warmup 20 --reps 100,15,0,NVIDIA GeForce RTX 4070,4096,1,1,256,1,1,10,0.245486,0.005914

@@ -1,0 +1,10 @@
+name=NVIDIA GeForce RTX 4070
+major=8 minor=9
+multiProcessorCount=46
+maxThreadsPerMultiProcessor=1536
+maxThreadsPerBlock=1024
+regsPerMultiprocessor=65536
+sharedMemPerMultiprocessor=102400
+sharedMemPerBlockOptin=101376
+maxBlocksPerMultiProcessor=24
+warpSize=32

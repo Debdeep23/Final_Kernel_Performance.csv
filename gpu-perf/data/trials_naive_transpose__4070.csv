@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667177,1
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667638,2
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667996,3
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667628,4
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667443,5
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667423,6
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667914,7
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667761,8
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.666645,9
+naive_transpose,--rows 2048 --cols 2048 --warmup 20 --reps 100,8,0,NVIDIA GeForce RTX 4070,128,128,1,16,16,1,0.667453,10

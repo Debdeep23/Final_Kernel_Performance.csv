@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000031,1
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000031,2
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000020,3
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000020,4
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000020,5
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000041,6
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000010,7
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000041,8
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000020,9
+shared_bank_conflict,--warmup 20 --reps 100,206,4096,NVIDIA GeForce RTX 4070,1,1,1,1024,1,1,0.000031,10

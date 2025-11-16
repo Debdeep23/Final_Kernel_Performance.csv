@@ -1,0 +1,11 @@
+kernel,args,regs,shmem,device_name,gx,gy,gz,bx,by,bz,time_ms,trial
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014408,1
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014449,2
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014428,3
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014479,4
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014418,5
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014459,6
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014492,7
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014459,8
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014438,9
+dot_product,--N 1048576 --block 256 --warmup 20 --reps 100,15,1024,NVIDIA GeForce RTX 4070,2048,1,1,256,1,1,0.014377,10
